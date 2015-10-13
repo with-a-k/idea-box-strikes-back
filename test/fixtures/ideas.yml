@@ -1,0 +1,36 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: Blancarte FFF
+  body: A choice-and-consequences-driven RPG.
+  quality: 1
+
+two:
+  title: Slightly Dragon Killer
+  body: Sometimes you just have to free humanity from tyrannical dragon gods before you turn into one. Action game.
+  quality: 0
+
+three:
+  title: Linarite
+  body: What does this gem name even suggest???
+  quality: 1
+
+four:
+  title: Fixture Faker
+  body: Automatically generates yaml fixture files for Rails apps.
+  quality: 2
+
+five:
+  title: Jerry
+  body: Ugh.
+  quality: 0
+
+six:
+  title: Blocketry
+  body: iOS implementation of action-puzzle DS game Meteos.
+  quality: 1
+
+seven:
+  title: Bullet Survive
+  body: A danmaku survival challenge featuring variations on several well-known patterns.
+  quality: 1
