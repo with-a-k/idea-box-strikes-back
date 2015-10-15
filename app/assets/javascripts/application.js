@@ -24,6 +24,8 @@ $(document).ready(function (){
 	deleteIdea();
 	upvoteIdea();
 	downvoteIdea();
+	searchIdeas();
+	finalizeEdits();
 });
 
 function loadAllIdeas() {
@@ -50,6 +52,7 @@ function displayIdea(idea) {
 		'<ul class="button-group">' + 
 		'<li><button class="delete-idea-button" id="delete-idea-' + idea.id + 
 		'" value="Delete This Idea">Delete This Idea</button></li>' +
+		'<li><button onclick="window.location.href=\'/ideas/' + idea.id + '/edit\'">Edit</button></li>' +
 		'<li><button class="downvote-idea button alert">Downvote</button><li>' +
 		'<li><button class="upvote-idea button success">Upvote</button><li> ' +
 		'</ul>' +
@@ -105,8 +108,10 @@ function searchIdeas() {
 			});
 		} else {
 			$('.idea').each(function (index, idea){
-				$idea = $(idea);
-				var text = $idea.getAttribute('data-text');
+				$individual_idea = $(idea);
+				var text = $individual_idea.attr('data-text').toLowerCase();
+				var matches = text.indexOf(currentSearch) !== -1;
+      	$individual_idea.toggle(matches);
 			});
 		}
 	});
@@ -170,6 +175,26 @@ function decreasedQuality(quality) {
 	} else {
 		return quality - 1;
 	}
+}
+
+function finalizeEdits() {
+	$('#finish-editing-idea').on('click', function(){
+		var ideaParams = {
+			idea: {
+				title: $('#idea_title').val(),
+				body: $('#idea_body').val()
+			}
+		}
+
+		$.ajax({
+			type: 'patch',
+			url: '/api/v1/ideas/' + $('#idea_id').val() + '.json',
+			data: ideaParams,
+			success: function(idea) {
+				window.location.replace("/");
+			}
+		});
+	});
 }
 
 function displayQuality(number) {
