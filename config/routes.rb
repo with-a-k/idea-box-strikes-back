@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   end
 
   root 'home#index'
+  resources :ideas, only: :edit
 end
