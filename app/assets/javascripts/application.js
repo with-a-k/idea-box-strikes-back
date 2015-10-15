@@ -40,12 +40,17 @@ function displayIdea(idea) {
 	$('#idea-list').append(
 		'<li class="idea" id="idea-' + idea.id +
 		'" data-id="' + idea.id +
+		'" data-quality="' + idea.quality + 
 		'" data-text="' + idea.title + ' ' + idea.body + '">' +
-		'<h3>' + idea.title + '</h3>' +
-		'<p>' + idea.body + '</p>' +
-		'<p>' + displayQuality(idea.quality) + '</p>' +
-		'<button class="delete-idea-button" id="delete-idea-' + idea.id + 
-		'" value="Delete This Idea">Delete This Idea</button>' +
+		'<h3 class="idea-title">' + idea.title + '</h3>' +
+		'<p class="idea-body">' + idea.body + '</p>' +
+		'<p class="idea-quality">' + displayQuality(idea.quality) + '</p>' +
+		'<ul class="button-group">' + 
+		'<li><button class="delete-idea-button" id="delete-idea-' + idea.id + 
+		'" value="Delete This Idea">Delete This Idea</button></li>' +
+		'<li><button class="downvote-idea button alert">Downvote</button><li>' +
+		'<li><button class="upvote-idea button success">Upvote</button><li> ' +
+		'</ul>' +
 		'</li>'
 	);
 }
@@ -105,8 +110,64 @@ function searchIdeas() {
 	});
 }
 
-function removeIdea(idea) {
+function upvoteIdea() {
+	$('#idea-list').delegate('.upvote-idea', 'click', function() {
+		var ideaToUpvote = $(this).closest('.idea');
+		var newQuality = increasedQuality(parseInt(ideaToUpvote.attr('data-quality')));
+		var ideaParams = {
+			idea: {
+				quality: newQuality
+			}
+		}
 
+		$.ajax({
+			type: 'patch',
+			url: 'api/v1/ideas/' + ideaToUpvote.attr('data-id') + '.json',
+			data: ideaParams,
+			success: function() {
+				ideaToUpvote.attr('data-quality', newQuality);
+				ideaToUpvote.find(".idea-quality").text(displayQuality(newQuality));
+			}
+		})
+	});
+}
+
+function increasedQuality(quality) {
+	if(quality >= 2) {
+		return 2;
+	} else {
+		return quality + 1;
+	}
+}
+
+function downvoteIdea() {
+	$('#idea-list').delegate('.downvote-idea', 'click', function() {
+		var ideaToDownvote = $(this).closest('.idea');
+		var newQuality = decreasedQuality(parseInt(ideaToDownvote.attr('data-quality')));
+		var ideaParams = {
+			idea: {
+				quality: newQuality
+			}
+		}
+
+		$.ajax({
+			type: 'patch',
+			url: 'api/v1/ideas/' + ideaToDownvote.attr('data-id') + '.json',
+			data: ideaParams,
+			success: function() {
+				ideaToDownvote.attr('data-quality', newQuality);
+				ideaToDownvote.find(".idea-quality").text(displayQuality(newQuality));
+			}
+		})
+	});
+}
+
+function decreasedQuality(quality) {
+	if (quality <= 0) {
+		return 0;
+	} else {
+		return quality - 1;
+	}
 }
 
 function displayQuality(number) {
