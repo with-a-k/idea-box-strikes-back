@@ -15,3 +15,7 @@
 /log/*
 !/log/.keep
 /tmp
+
+# Ignore DS_Store and Capybara save_and_open_page files
+*.DS_Store
+capybara-*
