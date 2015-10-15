@@ -24,6 +24,7 @@ $(document).ready(function (){
 	deleteIdea();
 	upvoteIdea();
 	downvoteIdea();
+	searchIdeas();
 });
 
 function loadAllIdeas() {
@@ -105,8 +106,10 @@ function searchIdeas() {
 			});
 		} else {
 			$('.idea').each(function (index, idea){
-				$idea = $(idea);
-				var text = $idea.getAttribute('data-text');
+				$individual_idea = $(idea);
+				var text = $individual_idea.attr('data-text').toLowerCase();
+				var matches = text.indexOf(currentSearch) !== -1;
+      	$individual_idea.toggle(matches);
 			});
 		}
 	});
