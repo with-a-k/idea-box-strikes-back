@@ -22,6 +22,8 @@ $(document).ready(function (){
 	loadAllIdeas();
 	pitchIdea();
 	deleteIdea();
+	upvoteIdea();
+	downvoteIdea();
 });
 
 function loadAllIdeas() {
